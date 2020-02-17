@@ -1,0 +1,153 @@
+Television.java
+/** 
+*The purpose of this class is to model a television
+*Darren King, February 16, 2020
+*/
+
+public class Television {
+	/**
+	 * @param MANUFACTURER - the brand of the television
+	 * @param SCREEN_SIZE - the size of the television
+	 * @param powerOn - the status of the television
+	 * @param channel - the current channel of the television
+	 * @param volume - the volume of the television
+	 */
+	private final String MANUFACTURER;
+	private final int SCREEN_SIZE;
+	private boolean powerOn;
+	private int channel;
+	private int volume;
+	
+/**
+ * @param brand - bring in information about manufacturer
+ * @param size - bring in information about screen size
+ */
+public Television(String brand, int size)
+{
+	MANUFACTURER = brand;
+	SCREEN_SIZE = size;
+	powerOn = false;
+	volume = 20;
+	channel = 2;
+}
+/**
+ * @param getVolume - gets the volume the user enters
+ */
+public int getVolume()
+{
+	return volume;
+}
+/**
+ * @param getChannel - gets the channel the user enters
+ */
+public int getChannel()
+{
+	return channel;
+}
+/**
+ * @param getManufacturer - Gets the manufacturer. It is a constant so it can not change
+ * so the user does not enter anything for it
+ */
+public String getManufacturer()
+{
+	return MANUFACTURER;
+}
+/**
+ * @param getScreenSize - Gets the screen size. It is a constant so it can not change
+ * so the user does not enter anything for it
+ */
+public int getScreenSize()
+{
+	return SCREEN_SIZE;
+}
+/**
+ * @param setChannel - changes the television's channel to what the user entered.
+ */
+public void setChannel(int number)
+{
+	channel = number;
+}
+/**
+ * @param power - tells whether the television is on or off
+ */
+public void power()
+{
+	powerOn = !powerOn;
+}
+/**
+ * @param increaseVolume - increases the volume the user entered by 1
+ */
+public void increaseVolume()
+{
+	volume++;
+}
+/**
+ * @param decreaseVolume - decreases the volume the user entered by 1
+ */
+public void decreaseVolume()
+{
+	volume--;
+}
+}
+
+
+
+
+
+TelevisionDemo.java
+import java.util.Scanner;
+
+/** 
+* This class tests the Television class
+*/
+public class TelevisionDemo
+	{
+	public static void main(String[] args)
+	{
+		//create a Scanner object to read from the keyboard
+		Scanner keyboard = new Scanner (System.in);
+		//declare variables
+		int station; //the user’s channel choice
+		//declare and instantiate a television object
+		Television bigScreen = new Television("Toshiba", 55);
+		//turn the power on
+		bigScreen.power();
+		//display the state of the television
+		System.out.println("A " + bigScreen.getScreenSize() + "-inch " +
+				bigScreen.getManufacturer() + " has been turned on.");
+		//prompt the user for input and store into station
+		System.out.print("What channel do you want? ");
+		station = keyboard.nextInt();
+		//change the channel on the television
+		bigScreen.setChannel(station);
+		//increase the volume of the television
+		bigScreen.increaseVolume();
+		//display the the current channel and volume of the television
+		System.out.println("Channel: " + bigScreen.getChannel() +
+				", Volume: " + bigScreen.getVolume());
+		System.out.println("Too loud!! I am lowering the volume.");
+		//decrease the volume of the television
+		bigScreen.decreaseVolume();
+		bigScreen.decreaseVolume();
+		bigScreen.decreaseVolume();
+		bigScreen.decreaseVolume();
+		bigScreen.decreaseVolume();
+		bigScreen.decreaseVolume();
+		//display the current channel and volume of the television
+		System.out.println("Channel: " + bigScreen.getChannel() +
+				", Volume: " + bigScreen.getVolume());
+		System.out.println(); //for a blank line
+		//HERE IS WHERE YOU DO TASK #5
+		Television portable = new Television("Sharp", 19);
+		portable.power();
+		System.out.println("A " + portable.getScreenSize() + "-inch " +
+				portable.getManufacturer() + " has been turned on.");
+		System.out.print("What channel do you want? ");
+		station = keyboard.nextInt();
+		portable.setChannel(station);
+		portable.decreaseVolume();
+		portable.decreaseVolume();
+		System.out.println("Channel: " + portable.getChannel() + ", Volume: " + portable.getVolume());
+		System.out.println();
+		}
+	}
