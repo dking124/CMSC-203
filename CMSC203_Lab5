@@ -1,0 +1,195 @@
+DataManager.java
+/**
+ * The DataManager class should never depend on the GUI, but rather the reverse. 
+ * So the DataManager methods should not use the GUI directly.  If you want data
+ * to get from the user to the manager, have the GUI get the data, and call the manager 
+ * with the data that the GUI got from a text field or other data structure.
+ * @author ralexander
+ *
+ */
+public class DataManager {
+    
+	DataManager() {	}
+
+	/** 
+	 * This method illustrates how the GUI can interact with the manager
+	 */
+	public String getHello() {
+		return "Hello World";
+	}
+
+	public String getHowdy() {
+		return "Howdy y'all";
+	}
+
+	public String getChinese() {
+		return "Ni hau";
+	}
+
+
+}
+
+
+
+
+
+FXDriver.java
+import java.io.IOException;
+import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+
+public class FXDriver extends Application {
+	   
+	/**
+	 * The main method for the GUI example program JavaFX version
+	 * @param args not used
+	 * @throws IOException
+	 */
+	public static void main(String[] args) {
+		launch(args);   
+	}
+		   
+	@Override
+	public void start(Stage stage) throws IOException {
+		//student Task #1:
+		//  instantiate the FXMainPane, name it root
+		FXMainPane root = new FXMainPane();
+		//  set the scene to hold root
+		stage.setScene(new Scene(root, 400, 200));
+		//set stage title
+		stage.setTitle("Hello World GUI");
+		//display the stage
+		stage.show();
+
+	}
+}
+
+
+
+
+FXMainPane.java
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+
+/**
+ * This panel is the basic panel, inside which other panels are placed.  
+ * Before beginning to implement, design the structure of your GUI in order to 
+ * understand what panels go inside which ones, and what buttons or other components
+ * go in which panels.  
+ * @author ralexander
+ *
+ */
+//make the main panel's layout be a VBox
+public class FXMainPane extends VBox {
+
+	//student Task #2:
+	//  declare five buttons, a label, and a textfield
+	Button helloButton;
+	Button howdyButton;
+	Button chineseButton;
+	Button clearButton;
+	Button exitButton;
+	Label f_label;
+	TextField textField;
+	//  declare two HBoxes
+	HBox l_HBox;
+	HBox u_HBox;
+	//student Task #4:
+	//  declare an instance of DataManager
+	DataManager data_input;
+	/**
+	 * The MainPanel constructor sets up the entire GUI in this approach.  Remember to
+	 * wait to add a component to its containing component until the container has
+	 * been created.  This is the only constraint on the order in which the following 
+	 * statements appear.
+	 */
+	FXMainPane() {
+		//student Task #2:
+		//  instantiate the buttons, label, and textfield
+		helloButton = new Button("Hello");
+		helloButton.setOnAction(new ButtonHandler());
+		howdyButton = new Button("Howdy");
+		howdyButton.setOnAction(new ButtonHandler());
+		chineseButton = new Button("Chinese");
+		chineseButton.setOnAction(new ButtonHandler());
+		clearButton = new Button("Clear");
+		clearButton.setOnAction(new ButtonHandler());
+		exitButton = new Button("Exit");
+		exitButton.setOnAction(new ButtonHandler());
+		f_label = new Label("Feedback");
+		textField = new TextField();
+		//  instantiate the HBoxes
+		l_HBox = new HBox();
+		u_HBox = new HBox();
+		//student Task #4:
+		//  instantiate the DataManager instance
+		
+		//  set margins and set alignment of the components
+		
+		//student Task #3:
+		//  add the label and textfield to one of the HBoxes
+		u_HBox.getChildren().addAll(f_label, textField);
+		//  add the buttons to the other HBox
+		l_HBox.getChildren().addAll(helloButton, howdyButton, chineseButton, clearButton, exitButton);
+		//  add the HBoxes to this FXMainPanel (a VBox)
+		getChildren().addAll(u_HBox, l_HBox);
+		data_input = new DataManager();
+	}
+	
+	//Task #4:
+	//  create a private inner class to handle the button clicks
+	private class ButtonHandler implements EventHandler <ActionEvent> 
+	{
+		 @Override
+		public void handle (ActionEvent event) 
+		{ 
+			
+			Object source = event.getTarget(); 
+			
+			
+			if (source == helloButton)
+			{
+				String input = data_input.getHello();
+				textField.setText(input);
+			}
+			else if (source == howdyButton)
+			{
+				String input = data_input.getHowdy();
+				textField.setText(input);
+			}
+			else if(source == chineseButton)
+            {
+               String input = data_input.getChinese();
+               textField.setText(input);
+            }
+             else if(source == clearButton)
+            {
+               textField.setText("");
+            }
+             else if(source == exitButton)
+            {
+               Platform.exit();
+                System.exit(0);
+            }
+	
+		}
+	
+	}
+}
