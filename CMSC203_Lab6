@@ -1,0 +1,179 @@
+GradeBook.java
+import java.util.ArrayList;
+
+public class GradeBook
+{
+   private double[] scores;
+   private int scoresSize;
+
+   /**
+      Constructs a gradebook with no scores and a given capacity.
+      @capacity the maximum number of scores in this gradebook
+   */
+   public GradeBook(int capacity)
+   {
+      scores = new double[capacity];
+      scoresSize = 0;
+   }
+
+   /**
+      Adds a score to this gradebook.
+      @param score the score to add
+      @return true if the score was added, false if the gradebook is full
+   */
+   public boolean addScore(double score)
+   {
+      if (scoresSize < scores.length)
+      {
+         scores[scoresSize] = score;
+         scoresSize++;
+         return true;
+      }
+      else
+         return false;      
+   }
+
+   /**
+      Computes the sum of the scores in this gradebook.
+      @return the sum of the scores
+   */
+   public double sum()
+   {
+      double total = 0;
+      for (int i = 0; i < scoresSize; i++)
+      {
+         total = total + scores[i];
+      }
+      return total;
+   }
+      
+   /**
+      Gets the minimum score in this gradebook.
+      @return the minimum score, or 0 if there are no scores.
+   */
+   public double minimum()
+   {
+      if (scoresSize == 0) return 0;
+      double smallest = scores[0];
+      for (int i = 1; i < scoresSize; i++)
+      {
+         if (scores[i] < smallest)
+         {
+            smallest = scores[i];
+         }
+      }
+      return smallest;
+   }
+
+   /**
+      Gets the final score for this gradebook.
+      @return the sum of the scores, with the lowest score dropped if 
+      there are at least two scores, or 0 if there are no scores.
+   */
+   public double finalScore() 
+   {
+      if (scoresSize == 0)
+         return 0;
+      else if (scoresSize == 1)
+         return scores[0];
+      else
+         return sum() - minimum();
+   }
+   
+   /**
+    * Get the score size for the gradebook
+    * @return the score size of the gradebook
+    */
+   public double getScoreSize()
+   {
+	   return scoresSize;
+   }
+   
+   /**
+    * Display the final scores
+    * @return the final scores that were entered
+    */
+   public String toString()
+   {
+	   String result = " ";
+	   for (int i=0; i < scoresSize; i++)
+	   {
+		   result += scores[i] + " ";
+	   }
+	   System.out.println(result);
+	   return result;
+   }
+}
+
+
+
+
+
+GradeBookTester.java
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class GradeBookTester {
+	private GradeBook g1;
+	private GradeBook g2;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		g1 = new GradeBook(5);
+		g1.addScore(50.0);
+		g1.addScore(75.0);
+		
+		g2 = new GradeBook(5);
+		g2.addScore(10.0);
+		g2.addScore(30.0);
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+		g1 = null;
+		g2 = null;
+	}
+
+	/**
+	 * Compare the results on the arrays to the ones being displayed
+	 * Compare score size to the expected numbers of scores
+	 */
+	@Test
+	void testAddScore() {
+		assertTrue((g1.toString()).equals("50.0 75.0 "));
+		assertTrue((g2.toString()).equals("10.0 30.0 "));
+		
+		assertEquals(2, g1.getScoreSize(), 0.001);
+		assertEquals(2, g2.getScoreSize(), 0.001);
+	}
+
+	/**
+	 * Compares the total when all the numbers are added
+	 */
+	@Test
+	void testSum() {
+		assertEquals(125.0, g1.sum(), .0001);
+		assertEquals(40.0, g2.sum(), .0001);
+	}
+
+	/**
+	 * Compare the minimum of the numbers
+	 */
+	@Test
+	void testMinimum() {
+		assertEquals(50.0, g1.minimum(), .001);
+		assertEquals(10.0, g2.minimum(), .001);
+	}
+
+	/**
+	 * Compare the maximum of the numbers
+	 */
+	@Test
+	void testFinalScore() {
+		assertEquals(75.0, g1.finalScore(), .0001);
+		assertEquals(30.0, g2.finalScore(), .0001);
+	}
+}
