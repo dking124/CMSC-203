@@ -1,0 +1,257 @@
+Toy.java
+//package _solution;
+import java.text.DecimalFormat;
+
+/**  	CMSC203 Assignment 2 Spring 2016 
+ * The Toy class will keep the cost for one of three different toys: 
+ * a plushie, a book, and blocks.
+ * It will determine if the toy is age-appropriate for a child.
+ * 
+ * @author Ida Justh
+ */
+
+public class Toy
+{ 		
+	/** cost for the plushie */
+	 final double PLUSHIE = 25.0;
+	 
+	 	/** cost for the book */
+	 final double BOOK = 15.0;
+	 
+	 	/** cost for blocks */
+	 final double BLOCKS = 20.0;
+	 
+	 	/** cost for a card */
+	 final double CARD = 2.95;
+	 
+	 	/** cost for a balloon */
+	 final double BALLOON = 6.0;
+	 
+	private String toy;		// the toy to purchase
+	private double cost;	// the cost of the entire toy purchase
+	private int age;		// the age of the child
+	
+	DecimalFormat dollar = new DecimalFormat("#,##0.00");	//format cost
+	
+		/** no-arg constructor */
+	public Toy()
+	{
+		toy = "";
+		cost = 0;
+		age = 0;
+	}
+	
+		/** constructor initializes toy and age to values input from the user, 
+		 * cost to appropriate constant 
+		 * 
+		 * @param t  the toy requested
+		 * @param a  the age of the child
+		 * @param c  the cost to the cost of the toy requested
+		 */
+	public Toy(String t, int a)
+	{
+		setToy(t);
+		setAge(a);
+		setCost(t);
+	}
+	
+	   	/** change the toy to be used
+    	 * 
+    	 * @param t  Change the toy 
+    	 */
+    public void setToy(String t)
+    {
+    	if (t.toLowerCase().equals("plushie"))
+         	toy = "plushie";        	
+       	else if (t.toLowerCase().equals("book"))
+     		toy = "book";
+        else if (t.toLowerCase().equals("blocks"))
+    		toy = "blocks"; 	
+        else
+        	toy = "";
+    }
+  
+       	/** change the age of the child
+    	 * 
+    	 * @param a  the age of the child to receive the toy
+    	 */
+    public void setAge(int a)
+    {
+    	age = a;
+    }
+    
+    	/**  change the cost to the cost of only the gift with no add-ons
+    	 * @param t  the original cost of the toy
+    	 */
+    public void setCost(String t)
+    {
+    	if (t.toLowerCase().equals("plushie"))
+    		cost = PLUSHIE;
+ 		else if (t.toLowerCase().equals("book"))
+			cost = BOOK;
+ 		else if (t.toLowerCase().equals("blocks"))
+ 			cost = BLOCKS;
+ 		else
+ 			cost = 0;
+    } 
+    
+    	/** get the string representing the toy
+    	 * 
+    	 * @return the name of the toy requested 
+    	 */
+    public String getToy()
+    {
+    	return toy;
+    }
+    
+    	/** get the age of the child that corresponds to the toy
+    	 * 
+    	 * @return the age of the child
+    	 */
+    public int getAge()
+    {
+    	return age;
+    }
+    
+    	/** get the cost of the toy requested (may include add-ons)
+    	 * 
+    	 * @return the cost of the toy
+    	 */
+    public double getCost()
+    {
+    	return cost;
+    }
+    
+		/** determines age-appropriate for the toy:
+		 * plushie: 0 to 2 years
+		 * book: 4 to 7 years
+		 * blocks: 3 to 5 years
+		 * @return true if toy matches age range and false otherwise.
+		 */
+    public boolean ageOK()
+    {
+    	if (toy.equalsIgnoreCase("plushie") && (age >= 0 && age <= 2))
+    		return true;
+    	else if(toy.equalsIgnoreCase("blocks") && (age >= 3 && age <= 5))
+    		return true;
+    	else if(toy.equalsIgnoreCase("book") && (age >= 4 && age <= 7))
+    		return true;
+    	else
+    		return false;
+    }
+    
+		/**  add a card to the gift
+		 * update the cost of the gift
+		 * @param s
+		 */
+	public void addCard(String s)
+	{
+	if(s.equalsIgnoreCase("yes"))
+		addCost(CARD);
+	}
+	
+		/**add a balloon to the gift
+		 * update the cost of the gift
+		 * @param s
+		 */
+	public void addBalloon(String s)
+	{
+	if (s.equalsIgnoreCase("yes"))
+		addCost(BALLOON);
+	}
+	
+		/** change the cost of the gift when a card or balloon is added
+		*
+		* @param c cost of card or balloon 
+		*/
+	public void addCost(double c)
+	{
+	cost += c;
+	}
+	
+		/**  gives a string representation of the instance variables
+		 * 	@return the instance variables as a string with cost formatted for currency
+		 */
+    public String toString()
+    {
+    	if (toy.equalsIgnoreCase("plushie")) toy="a plushie";
+    	else if (toy.equalsIgnoreCase("book")) toy="a book";
+    	
+    	return " at " + age + " years old is " + toy + " for $" + dollar.format(getCost());
+    }  
+}
+
+
+
+
+
+
+
+Birthday.java
+import javax.swing.JOptionPane;
+import java.util.Random;
+
+public class Birthday {
+
+	public static void main(String[] args) {
+		String programmerName, childName, toyChoice, stringAge, YesOrNo, answer, cardChoice, balloonChoice;
+		int age;
+		double total = 0;
+		programmerName = "Darren King";
+		
+		Toy toyObject = new Toy();
+		 
+		/**
+		 * Random 5-digit number generator
+		 */
+		Random random = new Random(); 
+        int num = random.nextInt(100000);
+        String randomOrderNumber = String.format("%05d", num);
+    
+		
+		JOptionPane.showMessageDialog(null, "Welcome to the Toy Company \nto choose gifts for young children");
+		do {
+			childName = JOptionPane.showInputDialog("Enter the name of the child");
+			
+			stringAge = JOptionPane.showInputDialog("How old is the child?");
+			age = Integer.parseInt(stringAge);
+			toyObject.setAge(age);
+			
+			toyChoice = JOptionPane.showInputDialog("Choose a toy: a plushie, blocks, or a book");
+			toyObject.setToy(toyChoice);
+			
+			if (!toyObject.ageOK())
+			{
+				YesOrNo = JOptionPane.showInputDialog("The toy is not age appropiate.\n Do you want to cancel that toy request?\n Yes or No:");
+				if (YesOrNo.equalsIgnoreCase("yes"))
+				{
+					childName = JOptionPane.showInputDialog("Enter the name of the child");
+					
+					stringAge = JOptionPane.showInputDialog("How old is the child?");
+					age = Integer.parseInt(stringAge);
+					toyObject.setAge(age);
+					
+					toyChoice = JOptionPane.showInputDialog("Choose a toy: a plushie, blocks, or a book");
+					toyObject.setToy(toyChoice);
+				}
+			}
+			toyObject.setCost(toyChoice);
+			
+			cardChoice = JOptionPane.showInputDialog("Do you want a card with the gift? Yes or No");
+			toyObject.addCard(cardChoice);
+			
+			balloonChoice = JOptionPane.showInputDialog("Do you want a balloon with the gift? Yes or No");
+			toyObject.addBalloon(balloonChoice);
+			
+			total += toyObject.getCost();
+			System.out.println("The gift for " + childName + " " + toyObject.toString());
+			
+			answer = JOptionPane.showInputDialog("Do you want another toy? Yes or No");
+			
+		}while(answer.equalsIgnoreCase("yes"));
+		System.out.println("The total cost of your order is $" + total);
+		System.out.println("Order number is " + randomOrderNumber);
+		System.out.println("\nProgrammer: " + programmerName);
+	}
+
+}
